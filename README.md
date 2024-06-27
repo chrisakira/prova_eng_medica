@@ -1,11 +1,11 @@
 # Prova final da matéria de Engenharia Médica.
-Projeto escrito por Christopher Akira França Maekawa para a avaliação dos conteudos ofertados na matéria de Engenharia médica ofertada pelo professor Jose Jair Alves Mendes Junior.
+Projeto escrito por Christopher Akira França Maekawa para a avaliação dos conteúdos oferecidos na matéria de Engenharia Médica, ministrada pelo professor Jose Jair Alves Mendes Junior.
 
 ## Proposta 
 A prova é o desenvolvimento de algoritmo, usando os sinais brutos, para determinar o valor da pressão sanguínea.
 
 ## Resultado obtido
-Foi possível utilizar os dados contidos no arquivo CSV para criar um gráfico com os valores estimados de pressão máxima e pressão mínima para os dados de pacientes contidos no arquivo CSV.
+Foi possível utilizar os dados contidos no arquivo CSV para estimar os valores de pressão sanguínea máxima e mínima, além de criar um gráfico para melhor visualização dos dados.
 
 ## Clone do repositório
 Primeiro, é necessário clonar o repositório para uma pasta de sua escolha:
