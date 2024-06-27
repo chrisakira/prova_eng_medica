@@ -1,62 +1,63 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Read the CSV file
-data = pd.read_csv('pressao.csv', sep=';', usecols=[0,1] ,header=0)  # Assuming the CSV file has a header
+def main():
+    # Read the CSV file
+    data = pd.read_csv('pressao.csv', sep=';', usecols=[0,1] ,header=0, names=['dc_data', 'ac_data'])  # Assuming the CSV file has a header
 
-# If the column names are different, adjust them as needed
-if 'col_1' not in data.columns or 'col_2' not in data.columns:
-    data.columns = ['col_1', 'col_2']  # Adjust the column names as needed
+    dc_data = data['dc_data']
+    ac_data = data['ac_data']
 
-data_1 = data['col_1']
-data_2 = data['col_2']
-
-data_index = len(data_1)
-initial_index = int(data_1.idxmax() + data_1.idxmax()*0.1)
-min = int(0)
-max = int(0)
-downs = int(0)
-angle = bool(False)
-i = initial_index
-
-while i < data_index:
-    if data_2[i+1] < (data_2[i]+3) and angle == False:
-        angle = True
-        downs += 1    
-        max += data_1[i]
+    data_index = len(dc_data) # The max number of samples
+    initial_index = int(dc_data.idxmax() + dc_data.idxmax() * 0.1) # The initial index to start the search
     
-    if data_2[i+1] > (data_2[i]+3) and angle == True:
-        angle = False
+    min = int(0)
+    max = int(0)
+    downs = int(0)
+    angle = bool(False)
+    
+    i = initial_index
+    while i < data_index:
+        if ac_data[i+1] < (ac_data[i] + 3) and not angle:
+            angle = True
+            downs += 1    
+            max += dc_data[i]
         
-    if downs >= 2:
-        max = max/2 
-        break
-    
-    i += 1
-    
-i = initial_index
-while i < data_index:
-    if (data_1[i] < data_2[i]):
-        if (data_2[i] < 114):
-            min = data_1[i]
+        if ac_data[i+1] > (ac_data[i] + 3) and angle:
+            angle = False
+            
+        if downs >= 2:
+            max = max / 2 
             break
-    i += 1
-print(max)    
-print(min)
+        
+        i += 1
+        
+    i = initial_index
+    while i < data_index:
+        if dc_data[i] < ac_data[i] and ac_data[i] < 114:
+            min = dc_data[i]
+            break
+        i += 1
 
-# Plot the data
-# Add circles at specific points
-plt.plot(data_1.index, data_1, color='black')
-plt.plot(data_2.index, data_2, color='blue')
-plt.axhline(y=max, color='r', linestyle='--')
-plt.axhline(y=min, color='g', linestyle='--')
-plt.text(len(data_1)*0.9, max, 'Max Pressure', color='r', ha='left', va='bottom')
-plt.text(len(data_1)*0.9, min, 'Min Pressure', color='g', ha='left', va='bottom')
-plt.xlabel('X-axis')
-plt.ylabel('Y-axis')
-plt.title('Data Plot')
-plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+    print(max)    
+    print(min)
 
-# Save the plot as a PNG file
-plt.savefig('plot.png')
-plt.show()
+    # Plot the data
+    plt.plot(dc_data.index, dc_data, color='black', label='Valores de pressão DC')
+    plt.plot(ac_data.index, ac_data, color='blue', label='Valores de pressão AC')
+    plt.axhline(y=max, color='r', linestyle='--', label='Pressão maxima')
+    plt.axhline(y=min, color='g', linestyle='--', label='Pressão minima')
+    plt.text(len(dc_data) * 0.8, max, f'Pressão máxima: {max}', color='r', ha='left', va='bottom')
+    plt.text(len(dc_data) * 0.8, min, f'Pressão minima: {min}', color='g', ha='left', va='bottom')
+    plt.xlabel('Amostras')
+    plt.ylabel('Pressão sanguinea PmmGh')
+    plt.title('Estimador de pressão sanguinea')
+    plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+    plt.legend()
+
+    # Save the plot as a PNG file
+    plt.savefig('plot.png')
+    plt.show()
+
+if __name__ == "__main__":
+    main()
