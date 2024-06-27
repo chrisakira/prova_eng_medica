@@ -7,7 +7,7 @@ A prova é o desenvolvimento de algoritmo, usando os sinais brutos, para determi
 ## Resultado obtido
 Foi possível utilizar os dados contidos no arquivo CSV para criar um gráfico com os valores estimados de pressão máxima e pressão mínima para os dados de pacientes contidos no arquivo CSV.
 
-## Clone
+## Clone do repositório
 Primeiro, é necessário clonar o repositório para uma pasta de sua escolha:
 ```bash
 git clone https://github.com/chrisakira/prova_eng_medica.git
